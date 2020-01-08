@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import './style.css';
 
 function App() {
   const [from, setFrom] = useState('TKU');
@@ -28,7 +29,7 @@ function App() {
 
   const renderPrices = () => {
     return (
-      <div>
+      <div className="price-grid">
         {Object.keys(prices).map(key => (
           <div>
             <h2>{key}</h2>
