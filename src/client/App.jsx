@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 
 function App() {
   const [from, setFrom] = useState('TKU');
@@ -10,13 +11,40 @@ function App() {
   useEffect(() => {
     (async () => {
       const response = await axios.get(`http://localhost:3000/prices?from=${from}&to=${to}&date=${date}`);
-      setPrices(response.data);
+      const journeys = response.data.data.journeys;
+      const pricesTemp = {};
+      journeys.forEach(journey => {
+        const journeyDate = moment(journey.depDate).format('YYYY-DD-MM');
+        if (!pricesTemp[journeyDate]) {
+          pricesTemp[journeyDate] = [];
+        }
+        const lowestPrice = journey.products.reduce((prev, curr) => (prev.price < curr.price ? prev : curr));
+        pricesTemp[journeyDate].push({ time: moment(journey.depDate).format('HH:mm'), price: lowestPrice.priceStr });
+      });
+
+      setPrices(pricesTemp);
     })();
   }, [from, to]);
+
+  const renderPrices = () => {
+    return (
+      <div>
+        {Object.keys(prices).map(key => (
+          <div>
+            <h2>{key}</h2>
+            {prices[key].map(day => (
+              <div>{`${day.time} ${day.price}`}</div>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div>
       <h1>Train prices</h1>
+      {renderPrices()}
     </div>
   );
 }
