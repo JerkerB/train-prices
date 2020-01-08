@@ -1,6 +1,9 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const routes = require("./routes/routes.js");
+const app = express();
 
-app.use(express.static('dist'))
+routes(app);
+
+app.use(express.static('dist'));
 
 app.listen(3000, () => { })
