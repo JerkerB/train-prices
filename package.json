@@ -7,6 +7,11 @@
     "build": "parcel build src/client/index.html --public-url ./",
     "dev": "concurrently --kill-others \"yarn parcel ./src/client/index.html\" \"nodemon ./src/server/index.js\""
   },
+  "browserslist": [
+    "last 1 chrome version",
+    "last 1 firefox version",
+    "last 1 safari version"
+  ],
   "dependencies": {
     "axios": "^0.19.1",
     "express": "^4.17.1",
