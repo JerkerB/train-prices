@@ -1,11 +1,11 @@
 {
-  "name": "finnish-train-price-calendar",
+  "name": "train-prices",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "prebuild": "rm -rf dist/",
-    "build": "parcel build src/client/index.html --public-url ./",
-    "dev": "concurrently --kill-others \"yarn parcel ./src/client/index.html\" \"nodemon ./src/server/index.js\""
+    "build": "parcel build src/index.html --public-url ./",
+    "dev": "parcel src/index.html"
   },
   "browserslist": [
     "last 1 chrome version",
@@ -14,14 +14,11 @@
   ],
   "dependencies": {
     "axios": "^0.19.1",
-    "express": "^4.17.1",
     "moment": "^2.24.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },
   "devDependencies": {
-    "concurrently": "^5.0.2",
-    "nodemon": "^2.0.2",
     "parcel-bundler": "^1.12.4"
   }
 }
