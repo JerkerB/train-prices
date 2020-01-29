@@ -58,7 +58,7 @@ function App() {
           formatDate={formatDate}
           parseDate={parseDate}
           format='LL'
-          placeholder={`${formatDate(dateTime, 'LL', 'fi')}`}
+          value={`${formatDate(dateTime, 'LL', 'fi')}`}
           dayPickerProps={{
             locale: 'fi',
             localeUtils: MomentLocaleUtils,
