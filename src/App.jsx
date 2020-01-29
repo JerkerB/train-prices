@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import MomentLocaleUtils, {
+  formatDate,
+  parseDate,
+} from 'react-day-picker/moment';
+import 'moment/locale/fi';
+import 'react-day-picker/lib/style.css';
 import './style.css';
 
 function fetchConnections(departure, arrival, dateTime) {
@@ -25,7 +32,7 @@ function parseConnectionsFromResponse(response) {
 function App() {
   const [departure, setDeparture] = useState('TKU');
   const [arrival, setArrival] = useState('VMO');
-  const [dateTime, setDateTime] = useState('2020-01-29');
+  const [dateTime, setDateTime] = useState(moment().format('YYYY-MM-DD'));
   const [connections, setConnections] = useState({
     departure: [],
     arrival: []
@@ -45,6 +52,21 @@ function App() {
   return (
     <div>
       <h1>Train prices</h1>
+      <div>
+        <p>Valitse päivä:</p>
+        <DayPickerInput
+          formatDate={formatDate}
+          parseDate={parseDate}
+          format='LL'
+          placeholder={`${formatDate(dateTime, 'LL', 'fi')}`}
+          dayPickerProps={{
+            locale: 'fi',
+            localeUtils: MomentLocaleUtils,
+            disabledDays: { before: new Date() }
+          }}
+          onDayChange={day => setDateTime(moment(day).format('YYYY-MM-DD'))}
+        />
+      </div>
       <div>
         <h2>{`${departure} - ${arrival}`}</h2>
         {connections.departure.map(conn => (
