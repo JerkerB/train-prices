@@ -54,6 +54,7 @@ function App() {
       <h1>Train prices</h1>
       <div>
         <p>Valitse päivä:</p>
+        <button onClick={() => setDateTime(moment(dateTime).add(-1, 'days'))}>{'<'}</button>
         <DayPickerInput
           formatDate={formatDate}
           parseDate={parseDate}
@@ -66,6 +67,7 @@ function App() {
           }}
           onDayChange={day => setDateTime(moment(day).format('YYYY-MM-DD'))}
         />
+        <button onClick={() => setDateTime(moment(dateTime).add(1, 'days'))}>{'>'}</button>
       </div>
       <div>
         <h2>{`${departure} - ${arrival}`}</h2>
