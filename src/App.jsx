@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
+import styled from 'styled-components';
 import DayPicker from './DayPicker';
 import ConnectionList from './ConnectionList';
 import fetchConnections from './fetch-connections';
-import './style.css';
+
+const ConnectionsWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
 
 function App() {
   const [departure, setDeparture] = useState('TKU');
@@ -25,10 +30,12 @@ function App() {
 
   return (
     <div>
-      <h1>Train prices</h1>
+      <h1>Junien hinnat</h1>
       <DayPicker value={dateTime} onDayChange={setDateTime} />
-      <ConnectionList departure={departure} arrival={arrival} connections={connections.departure} />
-      <ConnectionList departure={arrival} arrival={departure} connections={connections.arrival} />
+      <ConnectionsWrapper>
+        <ConnectionList departure={departure} arrival={arrival} connections={connections.departure} />
+        <ConnectionList departure={arrival} arrival={departure} connections={connections.arrival} />
+      </ConnectionsWrapper>
     </div>
   );
 }
