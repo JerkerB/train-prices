@@ -14,7 +14,7 @@ function fetchConnections(departure, arrival, dateTime) {
 
 function parseConnectionsFromResponse(response) {
   const connections = response.data.data.connections.items;
-  const result = [];
+  let result = [];
   if (connections) {
     result = response.data.data.connections.items.map(conn => ({
       id: conn.id,
