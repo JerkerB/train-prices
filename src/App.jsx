@@ -19,6 +19,10 @@ export const StyledSelect = styled.select`
   border-radius: 5px;
 `;
 
+function stationName(stationShortCode) {
+  const station = stations.find(station => station.stationShortCode === stationShortCode);
+  return station ? station.stationName : '';
+}
 
 function App() {
   const [departure, setDeparture] = useState('');
@@ -53,8 +57,8 @@ function App() {
       </StyledSelect>
       <DayPicker value={dateTime} onDayChange={setDateTime} />
       <ConnectionsWrapper>
-        <ConnectionList departure={departure} arrival={arrival} connections={connections.departure} />
-        <ConnectionList departure={arrival} arrival={departure} connections={connections.arrival} />
+        <ConnectionList departure={stationName(departure)} arrival={stationName(arrival)} connections={connections.departure} />
+        <ConnectionList departure={stationName(arrival)} arrival={stationName(departure)} connections={connections.arrival} />
       </ConnectionsWrapper>
     </div>
   );
