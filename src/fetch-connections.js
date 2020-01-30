@@ -13,13 +13,18 @@ function fetchConnections(departure, arrival, dateTime) {
 }
 
 function parseConnectionsFromResponse(response) {
-  return response.data.data.connections.items.map(conn => ({
-    id: conn.id,
-    duration: conn.duration,
-    departureTime: moment(conn.departure.time).format('HH:mm'),
-    arrivalTime: moment(conn.arrival.time).format('HH:mm'),
-    price: (conn.offer.price / 100).toLocaleString('fi-FI', { style: 'currency', currency: 'EUR' })
-  }));
+  const connections = response.data.data.connections.items;
+  const result = [];
+  if (connections) {
+    result = response.data.data.connections.items.map(conn => ({
+      id: conn.id,
+      duration: conn.duration,
+      departureTime: moment(conn.departure.time).format('HH:mm'),
+      arrivalTime: moment(conn.arrival.time).format('HH:mm'),
+      price: (conn.offer.price / 100).toLocaleString('fi-FI', { style: 'currency', currency: 'EUR' })
+    }));
+  }
+  return result;
 }
 
 export default fetchConnections;
