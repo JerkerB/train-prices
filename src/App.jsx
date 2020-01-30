@@ -1,28 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import moment from 'moment';
 import DayPicker from './DayPicker';
 import ConnectionList from './ConnectionList';
+import fetchConnections from './fetch-connections';
 import './style.css';
-
-function fetchConnections(departure, arrival, dateTime) {
-  return axios.post('https://backend-v3-prod.vrfi.prodvrfi.vrpublic.fi/', {
-    operationName: 'getConnections',
-    variables: { outbound: { departure, arrival, dateTime, showDepartedJourneys: false }, passengers: [{ type: 'ADULT' }] },
-    query:
-      'query getConnections($outbound: ConnectionInput!, $passengers: [PassengerInput!]!) {\n  connections(input: $outbound) {\n    ... on NoConnections {\n      noConnectionsReason\n      __typename\n    }\n    ... on ConnectionList {\n      items {\n        id\n        duration\n        transferCount\n        departure {\n          station\n          time\n          __typename\n        }\n        services\n        arrival {\n          station\n          time\n          __typename\n        }\n        legs {\n          id\n          services\n          departure {\n            station\n            time\n            __typename\n          }\n          arrival {\n            station\n            time\n            __typename\n          }\n          duration\n          train {\n            id\n            type\n            label\n            __typename\n          }\n          __typename\n        }\n        offer(passengers: $passengers) {\n          ... on Offer {\n            id\n            price\n            __typename\n          }\n          ... on NoOffer {\n            noOfferReason\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n'
-  });
-}
-
-function parseConnectionsFromResponse(response) {
-  return response.data.data.connections.items.map(conn => ({
-    id: conn.id,
-    duration: conn.duration,
-    departureTime: moment(conn.departure.time).format('HH:mm'),
-    arrivalTime: moment(conn.arrival.time).format('HH:mm'),
-    price: (conn.offer.price / 100).toLocaleString('fi-FI', { style: 'currency', currency: 'EUR' })
-  }));
-}
 
 function App() {
   const [departure, setDeparture] = useState('TKU');
@@ -35,11 +16,9 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      const departureConnections = await fetchConnections(departure, arrival, dateTime);
-      const arrivalConnections = await fetchConnections(arrival, departure, dateTime);
       setConnections({
-        departure: parseConnectionsFromResponse(departureConnections),
-        arrival: parseConnectionsFromResponse(arrivalConnections)
+        departure: await fetchConnections(departure, arrival, dateTime),
+        arrival: await fetchConnections(arrival, departure, dateTime)
       });
     })();
   }, [departure, arrival, dateTime]);
