@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import MomentLocaleUtils, { formatDate, parseDate } from 'react-day-picker/moment';
+import DayPicker from './DayPicker';
 import ConnectionList from './ConnectionList';
-import 'moment/locale/fi';
-import 'react-day-picker/lib/style.css';
 import './style.css';
 
 function fetchConnections(departure, arrival, dateTime) {
@@ -50,23 +47,7 @@ function App() {
   return (
     <div>
       <h1>Train prices</h1>
-      <div>
-        <p>Valitse päivä:</p>
-        <button onClick={() => setDateTime(moment(dateTime).add(-1, 'days'))}>{'<'}</button>
-        <DayPickerInput
-          formatDate={formatDate}
-          parseDate={parseDate}
-          format="LL"
-          value={`${formatDate(dateTime, 'LL', 'fi')}`}
-          dayPickerProps={{
-            locale: 'fi',
-            localeUtils: MomentLocaleUtils,
-            disabledDays: { before: new Date() }
-          }}
-          onDayChange={day => setDateTime(moment(day).format('YYYY-MM-DD'))}
-        />
-        <button onClick={() => setDateTime(moment(dateTime).add(1, 'days'))}>{'>'}</button>
-      </div>
+      <DayPicker value={dateTime} onDayChange={setDateTime} />
       <ConnectionList departure={departure} arrival={arrival} connections={connections.departure} />
       <ConnectionList departure={arrival} arrival={departure} connections={connections.arrival} />
     </div>
