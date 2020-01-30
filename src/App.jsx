@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-import MomentLocaleUtils, {
-  formatDate,
-  parseDate,
-} from 'react-day-picker/moment';
+import MomentLocaleUtils, { formatDate, parseDate } from 'react-day-picker/moment';
+import ConnectionList from './ConnectionList';
 import 'moment/locale/fi';
 import 'react-day-picker/lib/style.css';
 import './style.css';
@@ -58,7 +56,7 @@ function App() {
         <DayPickerInput
           formatDate={formatDate}
           parseDate={parseDate}
-          format='LL'
+          format="LL"
           value={`${formatDate(dateTime, 'LL', 'fi')}`}
           dayPickerProps={{
             locale: 'fi',
@@ -69,22 +67,8 @@ function App() {
         />
         <button onClick={() => setDateTime(moment(dateTime).add(1, 'days'))}>{'>'}</button>
       </div>
-      <div>
-        <h2>{`${departure} - ${arrival}`}</h2>
-        {connections.departure.map(conn => (
-          <div key={conn.id}>
-            <h3>{`${conn.departureTime} - ${conn.arrivalTime} ${conn.price}`}</h3>
-          </div>
-        ))}
-      </div>
-      <div>
-        <h2>{`${arrival} - ${departure}`}</h2>
-        {connections.arrival.map(conn => (
-          <div key={conn.id}>
-            <h3>{`${conn.departureTime} - ${conn.arrivalTime} ${conn.price}`}</h3>
-          </div>
-        ))}
-      </div>
+      <ConnectionList departure={departure} arrival={arrival} connections={connections.departure} />
+      <ConnectionList departure={arrival} arrival={departure} connections={connections.arrival} />
     </div>
   );
 }
