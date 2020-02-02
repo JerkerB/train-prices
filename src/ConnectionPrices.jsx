@@ -8,11 +8,11 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-function ConnectionPrices({ departureStationName, arrivalStationName, connections }) {
+function ConnectionPrices({ departure, arrival, connections, date }) {
   return (
     <Wrapper>
-      <ConnectionList departure={departureStationName} arrival={arrivalStationName} connections={connections.departure} />
-      <ConnectionList departure={arrivalStationName} arrival={departureStationName} connections={connections.arrival} />
+      <ConnectionList departure={departure} arrival={arrival} connections={connections.departure} date={date} />
+      <ConnectionList departure={arrival} arrival={departure} connections={connections.arrival} date={date} />
     </Wrapper>
   );
 }

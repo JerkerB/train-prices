@@ -6,11 +6,6 @@ import ConnectionPrices from './ConnectionPrices';
 import fetchConnections from './fetch-connections';
 import stations from './stations';
 
-function stationName(stationShortCode) {
-  const station = stations.find(station => station.stationShortCode === stationShortCode);
-  return station ? station.stationName : '';
-}
-
 function App() {
   const [departure, setDeparture] = useState('');
   const [arrival, setArrival] = useState('');
@@ -31,7 +26,7 @@ function App() {
   let priceContent;
 
   if (connections) {
-    priceContent = <ConnectionPrices departureStationName={stationName(departure)} arrivalStationName={stationName(arrival)} connections={connections} />;
+    priceContent = <ConnectionPrices departure={departure} arrival={arrival} connections={connections} date={dateTime} />;
   }
 
   return (
