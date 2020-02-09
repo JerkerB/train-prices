@@ -27,15 +27,15 @@ const Connections = styled.ul`
   }
 `
 
-function ConnectionList({ departure, arrival, dateTime }) {
+function ConnectionList({ departure, arrival, date }) {
   const [connections, setConnections] = useState();
 
   useEffect(() => {
     (async () => {
       setConnections();
-      setConnections(await fetchConnections(departure, arrival, dateTime));
+      setConnections(await fetchConnections(departure, arrival, date));
     })();
-  }, [departure, arrival, dateTime]);
+  }, [departure, arrival, date]);
 
   let connectionList = <Spinner />;
   let info = <div>Haetaan...</div>;
@@ -48,7 +48,7 @@ function ConnectionList({ departure, arrival, dateTime }) {
         ))}
       </Connections>
     );
-    info = <a target="_blank" href={`https://uusi.vr.fi/kertalippu-menomatkan-hakutulokset?from=${departure}&to=${arrival}&outbound=${dateTime}`}>
+    info = <a target="_blank" href={`https://uusi.vr.fi/kertalippu-menomatkan-hakutulokset?from=${departure}&to=${arrival}&outbound=${date}`}>
       Siirry varaamaan liput
     </a>
   }
