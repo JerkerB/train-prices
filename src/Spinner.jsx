@@ -1,4 +1,3 @@
-import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const rotate = keyframes`
@@ -11,11 +10,11 @@ const rotate = keyframes`
   }
 `;
 const Spinner = styled.div`
-  border: 16px solid #f2f2f2;
-  border-top: 16px solid #cccccc;
+  border: 10px solid #f2f2f2;
+  border-top: 10px solid #cccccc;
   border-radius: 50%;
-  width: 120px;
-  height: 120px;
+  width: ${props => props.width || "50px"};
+  height: ${props => props.height || "50px"};
   animation: ${rotate} 2s linear infinite;
 `;
 
