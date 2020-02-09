@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 const Title = styled.h1`
   align-self: center;
 `
-const ConnectionLists = styled.div`
+const ConnectionListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -49,14 +49,14 @@ function App() {
         <StationSelect placeHolder="Minne" stations={stations} onChange={setArrival} value={arrival} />
       </FlexWrapper>
       <FlexWrapper>
-        <ConnectionLists>
+        <ConnectionListWrapper>
           <DayPicker title="Meno" value={departureDate} onDayChange={setDepartureDate} />
           {departureConnectionList}
-        </ConnectionLists>
-        <ConnectionLists>
+        </ConnectionListWrapper>
+        <ConnectionListWrapper>
           <DayPicker title="Paluu" value={arrivalDate} onDayChange={setArrivalDate} />
           {arrivalConnectionList}
-        </ConnectionLists>
+        </ConnectionListWrapper>
       </FlexWrapper>
     </Wrapper>
   );
